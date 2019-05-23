@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PDFSplitForPDF24 {
@@ -52,7 +49,7 @@ namespace PDFSplitForPDF24 {
             PDF24.StartInfo.FileName = @"C:\Program Files (x86)\PDF24\pdf24-DocTool.exe";
             PDF24.StartInfo.Arguments = "-join -profile \"default/good\" -outputFile \"" + name + "\" ";
             foreach (string s in PDFPaths) {
-                PDF24.StartInfo.Arguments +="\""+ s + "\" ";
+                PDF24.StartInfo.Arguments += "\"" + s + "\" ";
             }
             PDF24.StartInfo.Arguments = PDF24.StartInfo.Arguments.Substring(0, PDF24.StartInfo.Arguments.Length - 1);
             PDF24.Start();

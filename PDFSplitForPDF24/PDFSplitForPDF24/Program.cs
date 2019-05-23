@@ -46,6 +46,18 @@ namespace PDFSplitForPDF24 {
             return Directory.GetFiles(path + @"\Cache\" + new FileInfo(PDFPath).Name);
         }
 
+        public static void JoinPDFs(string[] PDFPaths, string name) {
+            Process PDF24 = new Process();
+            PDF24.StartInfo.FileName = @"C:\Program Files (x86)\PDF24\pdf24-DocTool.exe";
+            PDF24.StartInfo.Arguments = "-join -profile \"default/best\" -outputFile \"" + name + "\" ";
+            foreach (string s in PDFPaths) {
+                PDF24.StartInfo.Arguments +="\""+ s + "\" ";
+            }
+            PDF24.StartInfo.Arguments = PDF24.StartInfo.Arguments.Substring(0, PDF24.StartInfo.Arguments.Length - 1);
+            PDF24.Start();
+            PDF24.WaitForExit();
+        }
+
         private static string AbsolutCachePath(string PDFPath) {
             string path = Sett.Cache;
             path = path.Replace("%work%", new FileInfo(PDFPath).DirectoryName);

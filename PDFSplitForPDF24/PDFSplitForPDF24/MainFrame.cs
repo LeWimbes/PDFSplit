@@ -43,12 +43,23 @@ namespace PDFSplitForPDF24 {
                                 MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 Program.RemoveCache(filePathTextBox.Text);
                             } else {
-                            filePathTextBox.Text = files.Length.ToString();
-                                int newFilesCount = files.Length / Program.Sett.Size;
-                                if (newFilesCount * Program.Sett.Size < files.Length) {
-                                    newFilesCount++;
+                                string[] fewFiles = new string[Program.Sett.Size];
+                                int i = 0;
+                                int j = 1;
+                                foreach (string s in files) {
+                                    if (i == Program.Sett.Size) {
+                                        Program.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                        fewFiles = new string[Program.Sett.Size];
+                                        j++;
+                                        i = 0;
+                                    }
+                                    fewFiles[i] = s;
+                                    i++;
                                 }
-                                //TODO
+                                if (fewFiles.Length != 0) {
+                                    Program.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                }
+                                Program.RemoveCache(filePathTextBox.Text);
                             }
                         }
                     } else {

@@ -14,17 +14,6 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
-            if (unitComboBox.SelectedItem != null) {
-                Program.Sett.Stype = (SizeType)unitComboBox.SelectedItem;
-            }
-            int size = 0;
-            if (sizeNumericTextBox.Text != "" && int.TryParse(sizeNumericTextBox.Text, out size)) {
-                Program.Sett.Size = size;
-            }
-            if (cacheTextBox.Text != "") {
-                Program.Sett.Cache = cacheTextBox.Text;
-            }
-            Program.Sett.SafeToFile();
         }
 
         #region Windows Form Designer generated code
@@ -46,6 +35,7 @@
             this.cacheTextTable = new System.Windows.Forms.TableLayoutPanel();
             this.cacheTextBox = new System.Windows.Forms.TextBox();
             this.cacheCacheTextBox = new System.Windows.Forms.TextBox();
+            this.safeButton = new System.Windows.Forms.Button();
             this.baseTable.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.cacheTable.SuspendLayout();
@@ -58,12 +48,14 @@
             this.baseTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.baseTable.Controls.Add(this.tableLayoutPanel1, 0, 0);
             this.baseTable.Controls.Add(this.cacheTable, 0, 1);
+            this.baseTable.Controls.Add(this.safeButton, 0, 2);
             this.baseTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.baseTable.Location = new System.Drawing.Point(0, 0);
             this.baseTable.Name = "baseTable";
-            this.baseTable.RowCount = 2;
-            this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.baseTable.RowCount = 3;
+            this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 38.28571F));
+            this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 61.71429F));
+            this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.baseTable.Size = new System.Drawing.Size(384, 211);
             this.baseTable.TabIndex = 0;
             // 
@@ -82,7 +74,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.25253F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.74747F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(378, 99);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(378, 61);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // sizeLabel
@@ -91,7 +83,7 @@
             this.sizeLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.sizeLabel.Location = new System.Drawing.Point(3, 0);
             this.sizeLabel.Name = "sizeLabel";
-            this.sizeLabel.Size = new System.Drawing.Size(183, 25);
+            this.sizeLabel.Size = new System.Drawing.Size(183, 15);
             this.sizeLabel.TabIndex = 0;
             this.sizeLabel.Text = "Geben Sie eine Ganzzahl ein";
             // 
@@ -101,7 +93,7 @@
             this.unitLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.unitLabel.Location = new System.Drawing.Point(192, 0);
             this.unitLabel.Name = "unitLabel";
-            this.unitLabel.Size = new System.Drawing.Size(183, 25);
+            this.unitLabel.Size = new System.Drawing.Size(183, 15);
             this.unitLabel.TabIndex = 1;
             this.unitLabel.Text = "Wählen Sie die Einheit";
             // 
@@ -110,7 +102,7 @@
             this.unitComboBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.unitComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.unitComboBox.FormattingEnabled = true;
-            this.unitComboBox.Location = new System.Drawing.Point(192, 28);
+            this.unitComboBox.Location = new System.Drawing.Point(192, 18);
             this.unitComboBox.Name = "unitComboBox";
             this.unitComboBox.Size = new System.Drawing.Size(183, 21);
             this.unitComboBox.TabIndex = 2;
@@ -118,7 +110,7 @@
             // sizeNumericTextBox
             // 
             this.sizeNumericTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sizeNumericTextBox.Location = new System.Drawing.Point(3, 28);
+            this.sizeNumericTextBox.Location = new System.Drawing.Point(3, 18);
             this.sizeNumericTextBox.Name = "sizeNumericTextBox";
             this.sizeNumericTextBox.Size = new System.Drawing.Size(183, 20);
             this.sizeNumericTextBox.TabIndex = 3;
@@ -131,13 +123,13 @@
             this.cacheTable.Controls.Add(this.cacheInfoLabel, 0, 1);
             this.cacheTable.Controls.Add(this.cacheTextTable, 0, 2);
             this.cacheTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cacheTable.Location = new System.Drawing.Point(3, 108);
+            this.cacheTable.Location = new System.Drawing.Point(3, 70);
             this.cacheTable.Name = "cacheTable";
             this.cacheTable.RowCount = 3;
             this.cacheTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.cacheTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.cacheTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 46F));
-            this.cacheTable.Size = new System.Drawing.Size(378, 100);
+            this.cacheTable.Size = new System.Drawing.Size(378, 102);
             this.cacheTable.TabIndex = 1;
             // 
             // cacheLabel
@@ -146,7 +138,7 @@
             this.cacheLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cacheLabel.Location = new System.Drawing.Point(3, 0);
             this.cacheLabel.Name = "cacheLabel";
-            this.cacheLabel.Size = new System.Drawing.Size(372, 27);
+            this.cacheLabel.Size = new System.Drawing.Size(372, 28);
             this.cacheLabel.TabIndex = 0;
             this.cacheLabel.Text = "Wählen Sie den Ort für Cache";
             // 
@@ -154,9 +146,9 @@
             // 
             this.cacheInfoLabel.AutoSize = true;
             this.cacheInfoLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cacheInfoLabel.Location = new System.Drawing.Point(3, 27);
+            this.cacheInfoLabel.Location = new System.Drawing.Point(3, 28);
             this.cacheInfoLabel.Name = "cacheInfoLabel";
-            this.cacheInfoLabel.Size = new System.Drawing.Size(372, 27);
+            this.cacheInfoLabel.Size = new System.Drawing.Size(372, 28);
             this.cacheInfoLabel.TabIndex = 2;
             this.cacheInfoLabel.Text = "%work% = Ordner der PDF; %install% = Ordner von diesem Programm";
             // 
@@ -168,7 +160,7 @@
             this.cacheTextTable.Controls.Add(this.cacheTextBox, 0, 0);
             this.cacheTextTable.Controls.Add(this.cacheCacheTextBox, 1, 0);
             this.cacheTextTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cacheTextTable.Location = new System.Drawing.Point(3, 57);
+            this.cacheTextTable.Location = new System.Drawing.Point(3, 59);
             this.cacheTextTable.Name = "cacheTextTable";
             this.cacheTextTable.RowCount = 1;
             this.cacheTextTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -192,6 +184,16 @@
             this.cacheCacheTextBox.Size = new System.Drawing.Size(108, 20);
             this.cacheCacheTextBox.TabIndex = 3;
             this.cacheCacheTextBox.Text = "\\Cache";
+            // 
+            // safeButton
+            // 
+            this.safeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.safeButton.Location = new System.Drawing.Point(306, 185);
+            this.safeButton.Name = "safeButton";
+            this.safeButton.Size = new System.Drawing.Size(75, 23);
+            this.safeButton.TabIndex = 2;
+            this.safeButton.Text = "Speichern";
+            this.safeButton.UseVisualStyleBackColor = true;
             // 
             // SettingsFrame
             // 
@@ -232,5 +234,6 @@
         private System.Windows.Forms.TableLayoutPanel cacheTextTable;
         protected System.Windows.Forms.TextBox cacheTextBox;
         private System.Windows.Forms.TextBox cacheCacheTextBox;
+        private System.Windows.Forms.Button safeButton;
     }
 }

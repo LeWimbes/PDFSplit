@@ -60,6 +60,7 @@ namespace PDFSplitForPDF24 {
                                     Program.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
                                 }
                                 Program.RemoveCache(filePathTextBox.Text);
+                                MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
                     } else {
@@ -92,6 +93,7 @@ namespace PDFSplitForPDF24 {
                                     Program.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
                                 }
                                 Program.RemoveCache(filePathTextBox.Text);
+                                MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
                     }

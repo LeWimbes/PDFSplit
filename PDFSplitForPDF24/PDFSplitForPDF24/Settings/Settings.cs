@@ -9,8 +9,7 @@ using System.Windows.Forms;
 
 namespace PDFSplitForPDF24 {
     class Settings {
-        //private static string path;
-        private static readonly string path = @"C:\Users\Admin\Desktop\PDF24Split\settings.json";
+        private static readonly string path = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.json";
 
         public string Cache {
             get; set;
@@ -31,7 +30,6 @@ namespace PDFSplitForPDF24 {
         }
 
         public static Settings LoadSettings() {
-            //path = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.json";
 
             string cache = "%work%";
             SizeType stype = SizeType.MiB;

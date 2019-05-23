@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 namespace PDFSplitForPDF24 {
     static class Program {
+
         public static Settings Sett {
             get; set;
         }

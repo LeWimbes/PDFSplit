@@ -63,19 +63,35 @@ namespace PDFSplitForPDF24 {
                             }
                         }
                     } else {
-                        int maxBytes = Program.Sett.Size;
+                        long maxBytes = Program.Sett.Size;
                         if (Program.Sett.Stype.Equals(SizeType.MB)) {
                             maxBytes *= 1000000;
                         } else {
                             maxBytes *= 1048576;
                         }
-                        if (fI.Length >= maxBytes) { // <=
+                        if (fI.Length <= maxBytes) {
                             MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         } else {
                             string[] files = Program.SplitPDF(filePathTextBox.Text);
                             if (files != null) {
-                                filePathTextBox.Text = files.Length.ToString();
-                                //TODO
+                                List<string> fewFiles = new List<string>();
+                                long bytes = 0;
+                                int j = 1;
+                                foreach (string s in files) {
+                                    FileInfo fIs = new FileInfo(s);
+                                    if ((bytes + fIs.Length) > Program.Sett.Size) {
+                                        Program.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                        fewFiles = new List<string>();
+                                        j++;
+                                        bytes = 0;
+                                    }
+                                    fewFiles.Add(s);
+                                    bytes += fIs.Length;
+                                }
+                                if (fewFiles.Count != 0) {
+                                    Program.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                }
+                                Program.RemoveCache(filePathTextBox.Text);
                             }
                         }
                     }

@@ -49,7 +49,7 @@ namespace PDFSplitForPDF24 {
         public static void JoinPDFs(string[] PDFPaths, string name) {
             Process PDF24 = new Process();
             PDF24.StartInfo.FileName = @"C:\Program Files (x86)\PDF24\pdf24-DocTool.exe";
-            PDF24.StartInfo.Arguments = "-join -profile \"default/best\" -outputFile \"" + name + "\" ";
+            PDF24.StartInfo.Arguments = "-join -profile \"default/good\" -outputFile \"" + name + "\" ";
             foreach (string s in PDFPaths) {
                 PDF24.StartInfo.Arguments +="\""+ s + "\" ";
             }

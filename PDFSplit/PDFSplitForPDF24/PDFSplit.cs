@@ -16,12 +16,15 @@ namespace PDFSplitForPDF24 {
                 return null;
             }
             Directory.CreateDirectory(path + @"\Cache");
-            PDF24.Run("-splitByPage -outputDir \"" + path + "\\Cache\" " + PDFPath);
-            return Directory.GetFiles(path + @"\Cache\" + new FileInfo(PDFPath).Name);
+            string args = "-splitByPage -outputDir \"" + path + "\\Cache\" \"" + PDFPath + "\"";
+            if (PDF24.Run(args)) {
+                return Directory.GetFiles(path + @"\Cache\" + new FileInfo(PDFPath).Name);
+            }
+            return null;
         }
 
         public static void JoinPDFs(string[] PDFPaths, string name) {
-            string args = "-join -profile \"default/good\" -outputFile \"" + name + "\" ";
+            string args = "-join -profile \"default/medium\" -outputFile \"" + name + "\" ";
             foreach (string s in PDFPaths) {
                 args += "\"" + s + "\" ";
             }

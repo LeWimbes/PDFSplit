@@ -11,7 +11,7 @@ namespace PDFSplitForPDF24 {
             unitComboBox.Items.Add(SizeType.MB);
             unitComboBox.Items.Add(SizeType.MiB);
             unitComboBox.Items.Add(SizeType.Seiten);
-            unitComboBox.SelectedItem = Program.Sett.Stype;
+            unitComboBox.SelectedItem = Program.Sett.SType;
 
             sizeNumericTextBox.Text = Program.Sett.Size.ToString();
 
@@ -24,7 +24,7 @@ namespace PDFSplitForPDF24 {
 
             // Check whether a Item is selected
             if (unitComboBox.SelectedItem != null) {
-                Program.Sett.Stype = (SizeType)unitComboBox.SelectedItem;
+                Program.Sett.SType = (SizeType)unitComboBox.SelectedItem;
                 Program.Sett.SafeToFile();
             } else {
                 MessageBox.Show("Die Einheit ist ungültig!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);

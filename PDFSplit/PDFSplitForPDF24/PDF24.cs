@@ -13,15 +13,17 @@ namespace PDFSplitForPDF24 {
             return File.Exists(Program.Sett.PDF24);
         }
 
-        public static void Run(string args) {
+        public static bool Run(string args) {
             if (PDF24.Exists()) {
-                Process PDF24 = new Process();
-                PDF24.StartInfo.FileName = Program.Sett.PDF24;
-                PDF24.StartInfo.Arguments = args;
-                PDF24.Start();
-                PDF24.WaitForExit();
+                Process PDF24P = new Process();
+                PDF24P.StartInfo.FileName = Program.Sett.PDF24;
+                PDF24P.StartInfo.Arguments = args;
+                PDF24P.Start();
+                PDF24P.WaitForExit();
+                return true;
             } else {
                 MessageBox.Show("PDF24 konnte nicht gefunden werden!\nFragen Sie gegebenenfalls Ihren Administrator um Rat.", "PDF24 nicht gefunden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
     }

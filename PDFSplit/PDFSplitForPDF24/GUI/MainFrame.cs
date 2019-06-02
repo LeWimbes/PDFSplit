@@ -30,19 +30,19 @@ namespace PDFSplitForPDF24 {
             if (filePathTextBox.Text.ToLower().EndsWith(".pdf")) {
                 if (File.Exists(filePathTextBox.Text)) {
                     FileInfo fI = new FileInfo(filePathTextBox.Text);
-                    if (Program.Sett.Stype.Equals(SizeType.Seiten)) {
-                        string[] files = Program.SplitPDF(filePathTextBox.Text);
+                    if (Program.Sett.SType.Equals(SizeType.Seiten)) {
+                        string[] files = PDFSplit.SplitPDF(filePathTextBox.Text);
                         if (files != null) {
                             if (files.Length <= Program.Sett.Size) {
                                 MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                Program.RemoveCache(filePathTextBox.Text);
+                                PDFSplit.RemoveCache(filePathTextBox.Text);
                             } else {
                                 string[] fewFiles = new string[Program.Sett.Size];
                                 int i = 0;
                                 int j = 1;
                                 foreach (string s in files) {
                                     if (i == Program.Sett.Size) {
-                                        Program.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                        PDFSplit.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
                                         fewFiles = new string[Program.Sett.Size];
                                         j++;
                                         i = 0;
@@ -51,15 +51,15 @@ namespace PDFSplitForPDF24 {
                                     i++;
                                 }
                                 if (fewFiles.Length != 0) {
-                                    Program.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                    PDFSplit.JoinPDFs(fewFiles, fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
                                 }
-                                Program.RemoveCache(filePathTextBox.Text);
+                                PDFSplit.RemoveCache(filePathTextBox.Text);
                                 MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }
                     } else {
                         long maxBytes = Program.Sett.Size;
-                        if (Program.Sett.Stype.Equals(SizeType.MB)) {
+                        if (Program.Sett.SType.Equals(SizeType.MB)) {
                             maxBytes *= 1000000;
                         } else {
                             maxBytes *= 1048576;
@@ -67,15 +67,15 @@ namespace PDFSplitForPDF24 {
                         if (fI.Length <= maxBytes) {
                             MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         } else {
-                            string[] files = Program.SplitPDF(filePathTextBox.Text);
+                            string[] files = PDFSplit.SplitPDF(filePathTextBox.Text);
                             if (files != null) {
                                 List<string> fewFiles = new List<string>();
                                 long bytes = 0;
                                 int j = 1;
                                 foreach (string s in files) {
                                     FileInfo fIs = new FileInfo(s);
-                                    if ((bytes + fIs.Length) > Program.Sett.Size) {
-                                        Program.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                    if ((bytes + fIs.Length) > maxBytes) {
+                                        PDFSplit.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
                                         fewFiles = new List<string>();
                                         j++;
                                         bytes = 0;
@@ -84,9 +84,9 @@ namespace PDFSplitForPDF24 {
                                     bytes += fIs.Length;
                                 }
                                 if (fewFiles.Count != 0) {
-                                    Program.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
+                                    PDFSplit.JoinPDFs(fewFiles.ToArray(), fI.FullName.Replace(".pdf", "_" + j + ".pdf"));
                                 }
-                                Program.RemoveCache(filePathTextBox.Text);
+                                PDFSplit.RemoveCache(filePathTextBox.Text);
                                 MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
                         }

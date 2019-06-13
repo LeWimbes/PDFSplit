@@ -89,7 +89,9 @@
     <Compile Include="GUI\NumericTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NotPDFException.cs" />
     <Compile Include="PDF24.cs" />
+    <Compile Include="PDFFile.cs" />
     <Compile Include="PDFSplit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -12,9 +12,7 @@ namespace PDFSplitForPDF24 {
         public static MainFrame Mframe {
             get; set;
         }
-        /// <summary>
-        /// Der Haupteinstiegspunkt für die Anwendung.
-        /// </summary>
+
         [STAThread]
         static void Main() {
             Sett = Settings.LoadSettings();

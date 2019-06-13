@@ -99,7 +99,8 @@
     <Compile Include="GUI\SettingsFrame.Designer.cs">
       <DependentUpon>SettingsFrame.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="ProgramSettings\QuantityUnit.cs" />
+    <Compile Include="ProgramSettings\Settings.cs" />
     <EmbeddedResource Include="GUI\MainFrame.resx">
       <DependentUpon>MainFrame.cs</DependentUpon>
     </EmbeddedResource>

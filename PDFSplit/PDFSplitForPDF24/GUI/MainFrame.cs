@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDFSplitForPDF24.ProgramSettings;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
@@ -30,7 +31,7 @@ namespace PDFSplitForPDF24 {
             if (filePathTextBox.Text.ToLower().EndsWith(".pdf")) {
                 if (File.Exists(filePathTextBox.Text)) {
                     FileInfo fI = new FileInfo(filePathTextBox.Text);
-                    if (Program.Sett.SType.Equals(SizeType.Seiten)) {
+                    if (Program.Sett.QUnit.Equals(QuantityUnit.Seiten)) {
                         string[] files = PDFSplit.SplitPDF(filePathTextBox.Text);
                         if (files != null) {
                             if (files.Length <= Program.Sett.Size) {
@@ -59,7 +60,7 @@ namespace PDFSplitForPDF24 {
                         }
                     } else {
                         long maxBytes = Program.Sett.Size;
-                        if (Program.Sett.SType.Equals(SizeType.MB)) {
+                        if (Program.Sett.QUnit.Equals(QuantityUnit.MB)) {
                             maxBytes *= 1000000;
                         } else {
                             maxBytes *= 1048576;

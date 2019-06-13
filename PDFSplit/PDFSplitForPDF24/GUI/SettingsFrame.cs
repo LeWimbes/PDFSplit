@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDFSplitForPDF24.ProgramSettings;
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -8,10 +9,10 @@ namespace PDFSplitForPDF24 {
         public SettingsFrame() {
             InitializeComponent();
 
-            unitComboBox.Items.Add(SizeType.MB);
-            unitComboBox.Items.Add(SizeType.MiB);
-            unitComboBox.Items.Add(SizeType.Seiten);
-            unitComboBox.SelectedItem = Program.Sett.SType;
+            unitComboBox.Items.Add(QuantityUnit.MB);
+            unitComboBox.Items.Add(QuantityUnit.MiB);
+            unitComboBox.Items.Add(QuantityUnit.Seiten);
+            unitComboBox.SelectedItem = Program.Sett.QUnit;
 
             sizeNumericTextBox.Text = Program.Sett.Size.ToString();
 
@@ -24,7 +25,7 @@ namespace PDFSplitForPDF24 {
 
             // Check whether a Item is selected
             if (unitComboBox.SelectedItem != null) {
-                Program.Sett.SType = (SizeType)unitComboBox.SelectedItem;
+                Program.Sett.QUnit = (QuantityUnit)unitComboBox.SelectedItem;
                 Program.Sett.SafeToFile();
             } else {
                 MessageBox.Show("Die Einheit ist ungültig!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);

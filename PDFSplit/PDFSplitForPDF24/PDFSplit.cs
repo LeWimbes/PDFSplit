@@ -15,7 +15,11 @@ namespace PDFSplitForPDF24 {
                 MessageBox.Show("Das Überverzeichnis für den Chache existiert nicht!\nFragen Sie gegebenenfalls Ihren Administrator um Rat.", "Ordner nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
-            Directory.CreateDirectory(path + @"\Cache");
+            //Directory.CreateDirectory(path + @"\Cache"); replaced to create hidden directory
+            if (!Directory.Exists(path + @"\Cache")) {
+                DirectoryInfo di = Directory.CreateDirectory(path + @"\Cache");
+                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            }
             string args = "-splitByPage -outputDir \"" + path + "\\Cache\" \"" + PDFPath + "\"";
             if (PDF24.Run(args)) {
                 return Directory.GetFiles(path + @"\Cache\" + new FileInfo(PDFPath).Name);

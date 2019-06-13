@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using PDFSplitForPDF24.ProgramSettings;
+using System;
 using System.Windows.Forms;
 
 namespace PDFSplitForPDF24 {

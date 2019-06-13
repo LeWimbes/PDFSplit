@@ -23,13 +23,13 @@
         /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
         /// </summary>
         private void InitializeComponent() {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainFrame));
             this.baseTable = new System.Windows.Forms.TableLayoutPanel();
             this.convertTable = new System.Windows.Forms.TableLayoutPanel();
             this.selectLabel = new System.Windows.Forms.Label();
             this.filePathTextBox = new System.Windows.Forms.TextBox();
             this.selectFileButton = new System.Windows.Forms.Button();
             this.startButton = new System.Windows.Forms.Button();
-            this.splitProgressBar = new System.Windows.Forms.ProgressBar();
             this.settingsButton = new System.Windows.Forms.Button();
             this.baseTable.SuspendLayout();
             this.convertTable.SuspendLayout();
@@ -47,7 +47,7 @@
             this.baseTable.RowCount = 2;
             this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.baseTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.baseTable.Size = new System.Drawing.Size(384, 161);
+            this.baseTable.Size = new System.Drawing.Size(384, 121);
             this.baseTable.TabIndex = 0;
             // 
             // convertTable
@@ -59,16 +59,14 @@
             this.convertTable.Controls.Add(this.filePathTextBox, 0, 1);
             this.convertTable.Controls.Add(this.selectFileButton, 1, 1);
             this.convertTable.Controls.Add(this.startButton, 0, 2);
-            this.convertTable.Controls.Add(this.splitProgressBar, 0, 3);
             this.convertTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.convertTable.Location = new System.Drawing.Point(3, 3);
             this.convertTable.Name = "convertTable";
-            this.convertTable.RowCount = 4;
+            this.convertTable.RowCount = 3;
             this.convertTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
             this.convertTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
-            this.convertTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.convertTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.convertTable.Size = new System.Drawing.Size(378, 125);
+            this.convertTable.Size = new System.Drawing.Size(378, 85);
             this.convertTable.TabIndex = 0;
             // 
             // selectLabel
@@ -104,23 +102,15 @@
             this.startButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startButton.Location = new System.Drawing.Point(3, 55);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(315, 24);
+            this.startButton.Size = new System.Drawing.Size(315, 27);
             this.startButton.TabIndex = 3;
             this.startButton.Text = "Start splitting";
             this.startButton.UseVisualStyleBackColor = true;
             // 
-            // splitProgressBar
-            // 
-            this.splitProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitProgressBar.Location = new System.Drawing.Point(3, 85);
-            this.splitProgressBar.Name = "splitProgressBar";
-            this.splitProgressBar.Size = new System.Drawing.Size(315, 37);
-            this.splitProgressBar.TabIndex = 4;
-            // 
             // settingsButton
             // 
             this.settingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.settingsButton.Location = new System.Drawing.Point(281, 135);
+            this.settingsButton.Location = new System.Drawing.Point(281, 95);
             this.settingsButton.Name = "settingsButton";
             this.settingsButton.Size = new System.Drawing.Size(100, 23);
             this.settingsButton.TabIndex = 1;
@@ -131,13 +121,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 161);
+            this.ClientSize = new System.Drawing.Size(384, 121);
             this.Controls.Add(this.baseTable);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainFrame";
-            this.ShowIcon = false;
             this.Text = "PDF Split for PDF24";
             this.baseTable.ResumeLayout(false);
             this.convertTable.ResumeLayout(false);
@@ -151,7 +141,6 @@
         private System.Windows.Forms.TableLayoutPanel baseTable;
         private System.Windows.Forms.TableLayoutPanel convertTable;
         private System.Windows.Forms.Label selectLabel;
-        protected System.Windows.Forms.ProgressBar splitProgressBar;
         protected System.Windows.Forms.Button selectFileButton;
         protected System.Windows.Forms.Button startButton;
         protected System.Windows.Forms.Button settingsButton;

@@ -4,33 +4,6 @@ using System.Windows.Forms;
 namespace PDFSplit {
     class PDFSplit {
 
-        public static string[] SplitPDF(string PDFPath) {
-            string path = AbsolutCachePath(PDFPath);
-            if (!Directory.Exists(path)) {
-                MessageBox.Show("Das Überverzeichnis für den Chache existiert nicht!\nFragen Sie gegebenenfalls Ihren Administrator um Rat.", "Ordner nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
-            }
-            //Directory.CreateDirectory(path + @"\Cache"); replaced to create hidden directory
-            if (!Directory.Exists(path + @"\Cache")) {
-                DirectoryInfo di = Directory.CreateDirectory(path + @"\Cache");
-                di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
-            }
-            string args = "-splitByPage -outputDir \"" + path + "\\Cache\" \"" + PDFPath + "\"";
-            if (PDF24.Run(args)) {
-                return Directory.GetFiles(path + @"\Cache\" + new FileInfo(PDFPath).Name);
-            }
-            return null;
-        }
-
-        public static void JoinPDFs(string[] PDFPaths, string name) {
-            string args = "-join -profile \"default/medium\" -outputFile \"" + name + "\" ";
-            foreach (string s in PDFPaths) {
-                args += "\"" + s + "\" ";
-            }
-            args = args.Substring(0, args.Length - 1);
-            PDF24.Run(args);
-        }
-
         private static string AbsolutCachePath(string PDFPath) {
             string path = Program.Sett.Cache;
             path = path.Replace("%work%", new FileInfo(PDFPath).DirectoryName);

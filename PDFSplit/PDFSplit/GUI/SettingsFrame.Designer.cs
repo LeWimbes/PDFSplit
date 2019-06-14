@@ -24,7 +24,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.baseTable = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.sizeTable = new System.Windows.Forms.TableLayoutPanel();
             this.sizeLabel = new System.Windows.Forms.Label();
             this.unitLabel = new System.Windows.Forms.Label();
             this.unitComboBox = new System.Windows.Forms.ComboBox();
@@ -37,7 +37,7 @@
             this.cacheCacheTextBox = new System.Windows.Forms.TextBox();
             this.safeButton = new System.Windows.Forms.Button();
             this.baseTable.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            this.sizeTable.SuspendLayout();
             this.cacheTable.SuspendLayout();
             this.cacheTextTable.SuspendLayout();
             this.SuspendLayout();
@@ -46,7 +46,7 @@
             // 
             this.baseTable.ColumnCount = 1;
             this.baseTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.baseTable.Controls.Add(this.tableLayoutPanel1, 0, 0);
+            this.baseTable.Controls.Add(this.sizeTable, 0, 0);
             this.baseTable.Controls.Add(this.cacheTable, 0, 1);
             this.baseTable.Controls.Add(this.safeButton, 0, 2);
             this.baseTable.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -59,23 +59,23 @@
             this.baseTable.Size = new System.Drawing.Size(384, 211);
             this.baseTable.TabIndex = 0;
             // 
-            // tableLayoutPanel1
+            // sizeTable
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.sizeLabel, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.unitLabel, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.unitComboBox, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.sizeNumericTextBox, 0, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.25253F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.74747F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(378, 61);
-            this.tableLayoutPanel1.TabIndex = 0;
+            this.sizeTable.ColumnCount = 2;
+            this.sizeTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.sizeTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.sizeTable.Controls.Add(this.sizeLabel, 0, 0);
+            this.sizeTable.Controls.Add(this.unitLabel, 1, 0);
+            this.sizeTable.Controls.Add(this.unitComboBox, 1, 1);
+            this.sizeTable.Controls.Add(this.sizeNumericTextBox, 0, 1);
+            this.sizeTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sizeTable.Location = new System.Drawing.Point(3, 3);
+            this.sizeTable.Name = "sizeTable";
+            this.sizeTable.RowCount = 2;
+            this.sizeTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25.25253F));
+            this.sizeTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 74.74747F));
+            this.sizeTable.Size = new System.Drawing.Size(378, 61);
+            this.sizeTable.TabIndex = 0;
             // 
             // sizeLabel
             // 
@@ -210,8 +210,8 @@
             this.Text = "Einstellungen";
             this.TopMost = true;
             this.baseTable.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            this.sizeTable.ResumeLayout(false);
+            this.sizeTable.PerformLayout();
             this.cacheTable.ResumeLayout(false);
             this.cacheTable.PerformLayout();
             this.cacheTextTable.ResumeLayout(false);
@@ -223,7 +223,7 @@
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel baseTable;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel sizeTable;
         private System.Windows.Forms.Label sizeLabel;
         private System.Windows.Forms.Label unitLabel;
         protected System.Windows.Forms.ComboBox unitComboBox;

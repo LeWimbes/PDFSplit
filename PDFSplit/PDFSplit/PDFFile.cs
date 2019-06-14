@@ -1,7 +1,6 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using PDFSplit.ProgramSettings;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 

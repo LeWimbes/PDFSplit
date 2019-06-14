@@ -7,9 +7,6 @@ namespace PDFSplit.ProgramSettings {
     public class Settings {
         private static readonly string path = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.json";
 
-        public string Cache {
-            get; set;
-        }
         public QuantityUnit QUnit {
             get; set;
         }
@@ -17,8 +14,7 @@ namespace PDFSplit.ProgramSettings {
             get; set;
         }
 
-        private Settings(string cache, QuantityUnit qUnit, int size) {
-            Cache = cache;
+        private Settings(QuantityUnit qUnit, int size) {
             QUnit = qUnit;
             Size = size;
         }
@@ -26,8 +22,6 @@ namespace PDFSplit.ProgramSettings {
         }
 
         public static Settings LoadSettings() {
-
-            string cache = "%work%";
             QuantityUnit qUnit = QuantityUnit.MiB;
             int size = 50;
             try {
@@ -35,13 +29,13 @@ namespace PDFSplit.ProgramSettings {
                     Settings Sett = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
                     return Sett;
                 } else {
-                    Settings Sett = new Settings(cache, qUnit, size);
+                    Settings Sett = new Settings(qUnit, size);
                     Sett.SafeToFile();
                     return Sett;
                 }
             } catch (UnauthorizedAccessException) {
                 MessageBox.Show("Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden!\nKontaktieren Sie Ihren Administrator.", "Fehlende Rechte", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new Settings(cache, qUnit, size);
+                return new Settings(qUnit, size);
             }
         }
 

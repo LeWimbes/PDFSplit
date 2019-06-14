@@ -41,21 +41,25 @@ namespace PDFSplit {
             } else {
                 long maxBytes = Program.Sett.Size;
                 if (Program.Sett.QUnit.Equals(QuantityUnit.MB)) {
-                   // maxBytes *= 1000000;
+                    maxBytes *= 1000000;
                 } else {
-                   // maxBytes *= 1048576;
+                    maxBytes *= 1048576;
                 }
 
                 if (pdf.FileSize <= maxBytes) {
                     MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } else {
                     int j = 1;
-                    PdfDocument nPdf = new PdfDocument(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                    PdfDocument nPdf = new PdfDocument();
                     for (int i = 0; i < pdf.PageCount; i++) {
-                        if (nPdf.PageCount != 0 && ((nPdf.FileSize / nPdf.PageCount) * (nPdf.PageCount + 1)) > maxBytes - (maxBytes*0.2)) {
-                            nPdf.Close();
-                            j++;
-                            nPdf = new PdfDocument(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                        if (nPdf.PageCount != 0) {
+                            nPdf.Save(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                            FileInfo fI = new FileInfo(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                            if (((fI.Length / nPdf.PageCount) * (nPdf.PageCount + 1)) > maxBytes - (maxBytes * 0.1)) {
+                                nPdf.Close();
+                                j++;
+                                nPdf = new PdfDocument();
+                            }
                         }
                         nPdf.AddPage(pdf.Pages[i]);
                     }

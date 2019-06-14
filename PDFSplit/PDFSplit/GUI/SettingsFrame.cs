@@ -16,8 +16,6 @@ namespace PDFSplit.GUI {
 
             sizeNumericTextBox.Text = Program.Sett.Size.ToString();
 
-            cacheTextBox.Text = Program.Sett.Cache;
-
             safeButton.Click += new EventHandler(SafeButton_Click);
         }
 
@@ -42,49 +40,6 @@ namespace PDFSplit.GUI {
                 return;
             }
 
-
-            // Check Cache Path
-
-            // Check if the path is empty
-            if (cacheTextBox.Text == "") {
-                MessageBox.Show("Der Pfad für den Chache darf nicht leer sein!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // Check if path contains multiple %work% or %work% and %install% or %work% not at the start
-            if (cacheTextBox.Text.Contains("%work%")) {
-                if (cacheTextBox.Text.Contains("%install%")) {
-                    MessageBox.Show("Sie müssen sich für %work% oder %install% entscheiden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                } else if (!cacheTextBox.Text.StartsWith("%work%")) {
-                    MessageBox.Show("%work% darf nur am Anfang stehen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                } else if (Regex.Matches(cacheTextBox.Text, "%work%").Count > 1) {
-                    MessageBox.Show("%work% darf nur einmal vorkommen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            // Check if path contains multiple %install% or %install% and %work% or %install% not at the start
-            if (cacheTextBox.Text.Contains("%install%")) {
-                if (cacheTextBox.Text.Contains("%work%")) {
-                    MessageBox.Show("Sie müssen sich für %work% oder %install% entscheiden!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                } else if (!cacheTextBox.Text.StartsWith("%install%")) {
-                    MessageBox.Show("%install% darf nur am Anfang stehen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                } else if (Regex.Matches(cacheTextBox.Text, "%install%").Count > 1) {
-                    MessageBox.Show("%install% darf nur einmal vorkommen!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-            }
-
-            // Check if path is okay (only if not %work%)
-            if (!cacheTextBox.Text.Contains("%work%") && !Directory.Exists(cacheTextBox.Text.Replace("%install%", Path.GetDirectoryName(Application.ExecutablePath)))) {
-                MessageBox.Show("Der Ordner, in welchem der Cache angelegt werden soll, existiert nicht!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            Program.Sett.Cache = cacheTextBox.Text;
             Program.Sett.SafeToFile();
 
             this.Close();

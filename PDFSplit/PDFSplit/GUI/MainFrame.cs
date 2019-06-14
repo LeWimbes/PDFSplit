@@ -40,7 +40,7 @@ namespace PDFSplit.GUI {
             }
 
             try {
-                pdf.Split();
+                pdf.Split(progressBar);
             } catch (FileNotFoundException) {
                 MessageBox.Show("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 startButton.Enabled = true;

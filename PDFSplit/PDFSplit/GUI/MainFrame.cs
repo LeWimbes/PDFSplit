@@ -6,10 +6,12 @@ namespace PDFSplit.GUI {
     public partial class MainFrame : Form {
 
         private SettingsFrame Settf;
+        private PdfFile pdf;
+
         public MainFrame() {
             InitializeComponent();
             selectFileButton.Click += new EventHandler(SelectFileButton_Click);
-            startButton.Click += new EventHandler(StartButton_Click);
+            startStopButton.Click += new EventHandler(StartStopButton_Click);
             settingsButton.Click += new EventHandler(SettingsButton_Click);
         }
 
@@ -23,35 +25,13 @@ namespace PDFSplit.GUI {
             }
         }
 
-        private void StartButton_Click(object sender, EventArgs e) {
-            startButton.Enabled = false;
-
-            PDFFile pdf;
-            try {
-                pdf = new PDFFile(filePathTextBox.Text);
-            } catch (FileNotFoundException) {
-                MessageBox.Show("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                startButton.Enabled = true;
-                return;
-            } catch (NotPDFException) {
-                MessageBox.Show("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                startButton.Enabled = true;
-                return;
+        private void StartStopButton_Click(object sender, EventArgs e) {
+            if (startStopButton.Text.Equals("Start splitting")) {
+                pdf = new PdfFile(filePathTextBox.Text);
+                pdf.StartSplitting();
+            } else {
+                pdf.StopSplitting();
             }
-
-            try {
-                pdf.Split(progressBar);
-            } catch (FileNotFoundException) {
-                MessageBox.Show("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                startButton.Enabled = true;
-                return;
-            } catch (NotPDFException) {
-                MessageBox.Show("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                startButton.Enabled = true;
-                return;
-            }
-
-            startButton.Enabled = true;
         }
 
         private void SettingsButton_Click(object sender, EventArgs e) {

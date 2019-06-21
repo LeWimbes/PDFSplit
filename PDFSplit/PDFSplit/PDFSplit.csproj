@@ -92,7 +92,7 @@
       <DependentUpon>SettingsFrame.cs</DependentUpon>
     </Compile>
     <Compile Include="NotPDFException.cs" />
-    <Compile Include="PDFFile.cs" />
+    <Compile Include="PdfFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgramSettings\QuantityUnit.cs" />
     <Compile Include="ProgramSettings\Settings.cs" />

@@ -1,49 +1,132 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using PDFSplit.GUI;
 using PDFSplit.ProgramSettings;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PDFSplit {
-    class PDFFile {
-        private string path {
+    class PdfFile {
+        private string Path {
             get; set;
         }
 
-        public PDFFile(string path) {
-            this.path = path;
-            CheckFile();
+        private bool Stop {
+            get; set;
         }
 
-        public void Split(ProgressBar bar) {
-            CheckFile();
+        private PdfDocument Pdf {
+            get; set;
+        }
 
-            PdfDocument pdf = PdfReader.Open(path, PdfDocumentOpenMode.Import);
+        private MainFrame Frame {
+            get; set;
+        }
+
+        private ProgressBar Bar {
+            get; set;
+        }
+
+        private Button StStButton {
+            get; set;
+        }
+
+        public PdfFile(string path) {
+            Path = path;
+        }
+
+
+        public void StopSplitting() {
+            Stop = true;
+        }
+
+        public async void StartSplitting() {
+            if (CheckFile(Path)) {
+                Pdf = PdfReader.Open(Path, PdfDocumentOpenMode.Import);
+                Frame = Program.Mframe;
+                Bar = Frame.progressBar;
+                StStButton = Frame.startStopButton;
+                Stop = false;
+
+                Task task = new Task(() => Split());
+                task.Start();
+                await task;
+            }
+        }
+
+        private void ChangeStartStopButtonText(string text) {
+            if (StStButton.InvokeRequired) {
+                MethodInvoker invoker = new MethodInvoker(changeText);
+                StStButton.Invoke(invoker);
+                return;
+            }
+            void changeText() {
+                StStButton.Text = text;
+            }
+        }
+
+        private void ChangeBarValue(int value) {
+            if (Bar.InvokeRequired) {
+                MethodInvoker invoker = new MethodInvoker(changeValue);
+                Bar.Invoke(invoker);
+                return;
+            }
+            void changeValue() {
+                Bar.Value = value;
+            }
+        }
+
+        private void ChangeBarStep(int step) {
+            if (Bar.InvokeRequired) {
+                MethodInvoker invoker = new MethodInvoker(changeValue);
+                Bar.Invoke(invoker);
+                return;
+            }
+            void changeValue() {
+                Bar.Step = step;
+            }
+        }
+
+        private void PerformBarStep() {
+            if (Bar.InvokeRequired) {
+                MethodInvoker invoker = new MethodInvoker(changeValue);
+                Bar.Invoke(invoker);
+                return;
+            }
+            void changeValue() {
+                Bar.PerformStep();
+            }
+        }
+
+        private void Split() {
+            ChangeStartStopButtonText("Stop splitting");
+            ChangeBarValue(0);
 
             if (Program.Sett.QUnit.Equals(QuantityUnit.Seiten)) {
-                if (pdf.PageCount <= Program.Sett.Size) {
-                    bar.Value = 100;
+                if (Pdf.PageCount <= Program.Sett.Size) {
+                    ChangeBarValue(100);
                     MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } else {
-                    if (pdf.PageCount % Program.Sett.Size == 0) {
-                        bar.Step = 100 / (pdf.PageCount / Program.Sett.Size);
+                    if (Pdf.PageCount % Program.Sett.Size == 0) {
+                        ChangeBarStep(100 / (Pdf.PageCount / Program.Sett.Size));
                     } else {
-                        bar.Step = 100 / (pdf.PageCount / Program.Sett.Size + 1);
+                        ChangeBarStep(100 / (Pdf.PageCount / Program.Sett.Size + 1));
                     }
 
                     int j = 1;
-                    PdfDocument nPdf = new PdfDocument(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
-                    for (int i = 0; i < pdf.PageCount; i++) {
+                    PdfDocument nPdf = new PdfDocument(Pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                    for (int i = 0; i < Pdf.PageCount; i++) {
                         if (nPdf.PageCount != 0 && nPdf.PageCount == Program.Sett.Size) {
                             nPdf.Close();
-                            bar.PerformStep();
+                            PerformBarStep();
                             j++;
-                            nPdf = new PdfDocument(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                            nPdf = new PdfDocument(Pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
                         }
-                        nPdf.AddPage(pdf.Pages[i]);
+                        nPdf.AddPage(Pdf.Pages[i]);
                     }
                     nPdf.Close();
-                    bar.Value = 100;
+                    ChangeBarValue(100);
                     MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             } else {
@@ -54,45 +137,50 @@ namespace PDFSplit {
                     maxBytes *= 1048576;
                 }
 
-                if (pdf.FileSize <= maxBytes) {
-                    bar.Value = 100;
+                if (Pdf.FileSize <= maxBytes) {
+                    ChangeBarValue(100);
                     MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 } else {
-                    if ((pdf.FileSize + (pdf.FileSize * 0.1)) % maxBytes == 0) {
-                        bar.Step = 100 / (int)((pdf.FileSize + (pdf.FileSize * 0.1)) / maxBytes);
+                    if ((Pdf.FileSize + (Pdf.FileSize * 0.1)) % maxBytes == 0) {
+                        ChangeBarStep(100 / (int)((Pdf.FileSize + (Pdf.FileSize * 0.1)) / maxBytes));
                     } else {
-                        bar.Step = 100 / ((int)((pdf.FileSize + (pdf.FileSize * 0.1)) / maxBytes) + 1);
+                        ChangeBarStep(100 / ((int)((Pdf.FileSize + (Pdf.FileSize * 0.1)) / maxBytes) + 1));
                     }
 
                     int j = 1;
                     PdfDocument nPdf = new PdfDocument();
-                    for (int i = 0; i < pdf.PageCount; i++) {
+                    for (int i = 0; i < Pdf.PageCount; i++) {
                         if (nPdf.PageCount != 0) {
-                            nPdf.Save(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
-                            if (((PdfReader.Open(pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"), PdfDocumentOpenMode.InformationOnly).FileSize / nPdf.PageCount) * (nPdf.PageCount + 1)) > maxBytes - (maxBytes * 0.1)) {
+                            nPdf.Save(Pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"));
+                            if (((PdfReader.Open(Pdf.FullPath.Replace(".pdf", "_" + j + ".pdf"), PdfDocumentOpenMode.InformationOnly).FileSize / nPdf.PageCount) * (nPdf.PageCount + 1)) > maxBytes - (maxBytes * 0.1)) {
                                 nPdf.Close();
-                                bar.PerformStep();
+                                PerformBarStep();
                                 j++;
                                 nPdf = new PdfDocument();
                             }
                         }
-                        nPdf.AddPage(pdf.Pages[i]);
+                        nPdf.AddPage(Pdf.Pages[i]);
                     }
                     nPdf.Close();
-                    bar.Value = 100;
+                    ChangeBarValue(100);
                     MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            bar.Value = 0;
+
+            ChangeBarValue(0);
+            ChangeStartStopButtonText("Start splitting");
         }
 
-        private void CheckFile() {
+        private static bool CheckFile(string path) {
             if (!File.Exists(path)) {
-                throw new FileNotFoundException();
+                MessageBox.Show("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
             if (!path.ToLower().EndsWith(".pdf") || PdfReader.TestPdfFile(path) == 0) {
-                throw new NotPDFException();
+                MessageBox.Show("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
+            return true;
         }
     }
 }

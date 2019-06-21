@@ -29,9 +29,9 @@
             this.selectLabel = new System.Windows.Forms.Label();
             this.filePathTextBox = new System.Windows.Forms.TextBox();
             this.selectFileButton = new System.Windows.Forms.Button();
-            this.startButton = new System.Windows.Forms.Button();
-            this.settingsButton = new System.Windows.Forms.Button();
+            this.startStopButton = new System.Windows.Forms.Button();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.settingsButton = new System.Windows.Forms.Button();
             this.baseTable.SuspendLayout();
             this.convertTable.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +59,7 @@
             this.convertTable.Controls.Add(this.selectLabel, 0, 0);
             this.convertTable.Controls.Add(this.filePathTextBox, 0, 1);
             this.convertTable.Controls.Add(this.selectFileButton, 1, 1);
-            this.convertTable.Controls.Add(this.startButton, 0, 2);
+            this.convertTable.Controls.Add(this.startStopButton, 0, 2);
             this.convertTable.Controls.Add(this.progressBar, 0, 3);
             this.convertTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.convertTable.Location = new System.Drawing.Point(3, 3);
@@ -100,15 +100,23 @@
             this.selectFileButton.Text = "...";
             this.selectFileButton.UseVisualStyleBackColor = true;
             // 
-            // startButton
+            // startStopButton
             // 
-            this.startButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.startButton.Location = new System.Drawing.Point(3, 55);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(315, 24);
-            this.startButton.TabIndex = 3;
-            this.startButton.Text = "Start splitting";
-            this.startButton.UseVisualStyleBackColor = true;
+            this.startStopButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.startStopButton.Location = new System.Drawing.Point(3, 55);
+            this.startStopButton.Name = "startStopButton";
+            this.startStopButton.Size = new System.Drawing.Size(315, 24);
+            this.startStopButton.TabIndex = 3;
+            this.startStopButton.Text = "Start splitting";
+            this.startStopButton.UseVisualStyleBackColor = true;
+            // 
+            // progressBar
+            // 
+            this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBar.Location = new System.Drawing.Point(3, 85);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(315, 37);
+            this.progressBar.TabIndex = 4;
             // 
             // settingsButton
             // 
@@ -119,14 +127,6 @@
             this.settingsButton.TabIndex = 1;
             this.settingsButton.Text = "Einstellungen";
             this.settingsButton.UseVisualStyleBackColor = true;
-            // 
-            // progressBar
-            // 
-            this.progressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar.Location = new System.Drawing.Point(3, 85);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(315, 37);
-            this.progressBar.TabIndex = 4;
             // 
             // MainFrame
             // 
@@ -153,10 +153,10 @@
         private System.Windows.Forms.TableLayoutPanel convertTable;
         private System.Windows.Forms.Label selectLabel;
         protected System.Windows.Forms.Button selectFileButton;
-        protected System.Windows.Forms.Button startButton;
         protected System.Windows.Forms.Button settingsButton;
         protected System.Windows.Forms.TextBox filePathTextBox;
-        protected System.Windows.Forms.ProgressBar progressBar;
+        public System.Windows.Forms.Button startStopButton;
+        public System.Windows.Forms.ProgressBar progressBar;
     }
 }
 

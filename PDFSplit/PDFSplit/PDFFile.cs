@@ -1,6 +1,5 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
-using PDFSplit.GUI;
 using PDFSplit.ProgramSettings;
 using System;
 using System.Diagnostics;
@@ -77,11 +76,10 @@ namespace PDFSplit {
 
                 int j = 0;
                 PdfDocument nPdf = new PdfDocument(CalculateFileName(output, name, j));
-                for (int i = 0; i < Pdf.PageCount; i++) {
+                foreach (PdfPage page in Pdf.Pages) {
                     if (Stop) {
                         nPdf.Close();
-                        MessageBox.Show("Das Aufteilen der Datei wurde abgebrochen!", "Abbruch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        OpenFolder(output);
+                        Aborted(output);
                         return;
                     }
                     if (nPdf.PageCount != 0 && nPdf.PageCount == Program.Sett.Size) {
@@ -90,12 +88,10 @@ namespace PDFSplit {
                         j++;
                         nPdf = new PdfDocument(CalculateFileName(output, name, j));
                     }
-                    nPdf.AddPage(Pdf.Pages[i]);
+                    nPdf.AddPage(page);
                 }
                 nPdf.Close();
-                ChangeBarValue(100);
-                MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                OpenFolder(output);
+                Done(output);
             }
         }
 
@@ -122,35 +118,39 @@ namespace PDFSplit {
 
                 int j = 0;
                 PdfDocument nPdf = new PdfDocument();
+                PdfDocument n1Pdf = new PdfDocument();
+                n1Pdf.AddPage(Pdf.Pages[0]);
                 for (int i = 0; i < Pdf.PageCount; i++) {
                     if (Stop) {
                         if (nPdf.PageCount != 0) {
                             nPdf.Save(CalculateFileName(output, name, j));
                         }
                         nPdf.Close();
-                        MessageBox.Show("Das Aufteilen der Datei wurde abgebrochen!", "Abbruch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        OpenFolder(output);
+                        Aborted(output);
                         return;
+                    }
+                    nPdf.AddPage(Pdf.Pages[i]);
+                    if (i + 1 != Pdf.PageCount) {
+                        n1Pdf.AddPage(Pdf.Pages[i + 1]);
                     }
 
                     if (nPdf.PageCount != 0) {
-                        MemoryStream ms = new MemoryStream();
-                        ms.Seek(0, SeekOrigin.Begin);
-                        nPdf.Save(ms);
-                        if (((ms.Length / nPdf.PageCount) * (nPdf.PageCount + 1)) > maxBytes - (maxBytes * 0.1)) {
+                        if (Size(n1Pdf) > maxBytes) {
                             nPdf.Save(CalculateFileName(output, name, j));
                             nPdf.Close();
                             PerformBarStep();
                             j++;
                             nPdf = new PdfDocument();
+                            n1Pdf = new PdfDocument();
+                            n1Pdf.AddPage(Pdf.Pages[i]);
                         }
                     }
-                    nPdf.AddPage(Pdf.Pages[i]);
+                }
+                if (nPdf.PageCount != 0) {
+                    nPdf.Save(CalculateFileName(output, name, j));
                 }
                 nPdf.Close();
-                ChangeBarValue(100);
-                MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                OpenFolder(output);
+                Done(output);
             }
         }
 
@@ -166,9 +166,27 @@ namespace PDFSplit {
             return true;
         }
 
+        private long Size(PdfDocument pdf) {
+            MemoryStream ms = new MemoryStream();
+            ms.Seek(0, SeekOrigin.Begin);
+            pdf.Save(ms);
+            return ms.Length;
+        }
+
         private void FileSmallEnough() {
             ChangeBarValue(100);
             MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void Done(String path) {
+            ChangeBarValue(100);
+            MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            OpenFolder(path);
+        }
+
+        private void Aborted(String path) {
+            MessageBox.Show("Das Aufteilen der Datei wurde abgebrochen!", "Abbruch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            OpenFolder(path);
         }
 
         private void OpenFolder(string path) {

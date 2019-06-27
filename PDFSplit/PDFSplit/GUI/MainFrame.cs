@@ -26,7 +26,11 @@ namespace PDFSplit.GUI {
         }
 
         private void StartStopButton_Click(object sender, EventArgs e) {
-            if (startStopButton.Text.Equals("Start splitting")) {
+            startStopButton.Enabled = false;
+            if (startStopButton.Text.Equals("Aufteilen starten")) {
+                selectFileButton.Enabled = false;
+                settingsButton.Enabled = false;
+                filePathTextBox.Enabled = false;
                 pdf = new PdfFile(filePathTextBox.Text);
                 pdf.StartSplitting();
             } else {
@@ -37,7 +41,7 @@ namespace PDFSplit.GUI {
         private void SettingsButton_Click(object sender, EventArgs e) {
             if (Settf == null || Settf.IsDisposed) {
                 Settf = new SettingsFrame();
-                Settf.Show();
+                Settf.ShowDialog(this);
             }
         }
     }

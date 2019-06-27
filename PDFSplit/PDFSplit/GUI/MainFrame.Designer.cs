@@ -107,7 +107,7 @@
             this.startStopButton.Name = "startStopButton";
             this.startStopButton.Size = new System.Drawing.Size(315, 24);
             this.startStopButton.TabIndex = 3;
-            this.startStopButton.Text = "Start splitting";
+            this.startStopButton.Text = "Aufteilen starten";
             this.startStopButton.UseVisualStyleBackColor = true;
             // 
             // progressBar
@@ -152,11 +152,11 @@
         private System.Windows.Forms.TableLayoutPanel baseTable;
         private System.Windows.Forms.TableLayoutPanel convertTable;
         private System.Windows.Forms.Label selectLabel;
-        protected System.Windows.Forms.Button selectFileButton;
-        protected System.Windows.Forms.Button settingsButton;
-        protected System.Windows.Forms.TextBox filePathTextBox;
         public System.Windows.Forms.Button startStopButton;
         public System.Windows.Forms.ProgressBar progressBar;
+        public System.Windows.Forms.Button selectFileButton;
+        public System.Windows.Forms.Button settingsButton;
+        public System.Windows.Forms.TextBox filePathTextBox;
     }
 }
 

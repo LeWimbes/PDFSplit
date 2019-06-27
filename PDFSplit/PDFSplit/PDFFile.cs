@@ -1,5 +1,6 @@
 ﻿using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
+using PDFSplit.GUI;
 using PDFSplit.ProgramSettings;
 using System;
 using System.Diagnostics;
@@ -42,7 +43,8 @@ namespace PDFSplit {
         }
 
         private void Split() {
-            ChangeStartStopButtonText("Stop splitting");
+            ChangeStartStopButtonText("Vorzeitig beenden");
+            EnableStartStopButton();
             ChangeBarValue(0);
 
             if (Program.Sett.QUnit.Equals(QuantityUnit.Seiten)) {
@@ -52,7 +54,9 @@ namespace PDFSplit {
             }
 
             ChangeBarValue(0);
-            ChangeStartStopButtonText("Start splitting");
+            ChangeStartStopButtonText("Aufteilen starten");
+            EnableComponents();
+            EnableStartStopButton();
         }
 
         private void SplitByPages() {
@@ -156,11 +160,11 @@ namespace PDFSplit {
 
         private static bool CheckFile(string path) {
             if (!File.Exists(path)) {
-                MessageBox.Show("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowMessage("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             if (!path.ToLower().EndsWith(".pdf") || PdfReader.TestPdfFile(path) == 0) {
-                MessageBox.Show("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowMessage("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             return true;
@@ -173,19 +177,19 @@ namespace PDFSplit {
             return ms.Length;
         }
 
-        private void FileSmallEnough() {
+        private static void FileSmallEnough() {
             ChangeBarValue(100);
-            MessageBox.Show("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowMessage("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void Done(String path) {
+        private void Done(string path) {
             ChangeBarValue(100);
-            MessageBox.Show("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowMessage("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
             OpenFolder(path);
         }
 
-        private void Aborted(String path) {
-            MessageBox.Show("Das Aufteilen der Datei wurde abgebrochen!", "Abbruch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        private void Aborted(string path) {
+            ShowMessage("Das Aufteilen der Datei wurde abgebrochen!", "Abbruch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             OpenFolder(path);
         }
 
@@ -205,7 +209,7 @@ namespace PDFSplit {
             try {
                 Directory.CreateDirectory(directory);
             } catch (Exception) {
-                MessageBox.Show("Der Output Ordner konnte nicht erstellt werden!", "Fehlende Rechte", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowMessage("Der Output Ordner konnte nicht erstellt werden!", "Fehlende Rechte", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
             return directory;
@@ -220,11 +224,11 @@ namespace PDFSplit {
             return Path.Substring(i, Path.LastIndexOf('.') - i);
         }
 
-        private string CalculateFileName(string directory, string name, int i) {
+        private static string CalculateFileName(string directory, string name, int i) {
             return directory + "\\" + name + "_" + i + ".pdf";
         }
 
-        private long MaxBytes(int size, QuantityUnit unit) {
+        private static long MaxBytes(int size, QuantityUnit unit) {
             long maxBytes = size;
             if (unit.Equals(QuantityUnit.MB)) {
                 maxBytes *= 1000000;
@@ -234,7 +238,74 @@ namespace PDFSplit {
             return maxBytes;
         }
 
-        private void ChangeStartStopButtonText(string text) {
+        private static void ShowMessage(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon) {
+            MainFrame mf = Program.Mframe;
+            if (mf.InvokeRequired) {
+                MethodInvoker invoker = new MethodInvoker(show);
+                mf.Invoke(invoker);
+            } else {
+                show();
+            }
+            void show() {
+                MessageBox.Show(mf, text, caption, buttons, icon);
+            }
+        }
+
+        private static void EnableComponents() {
+            {
+                Button SeFiButton = Program.Mframe.selectFileButton;
+                if (SeFiButton.InvokeRequired) {
+                    MethodInvoker invoker = new MethodInvoker(enableSeFiButton);
+                    SeFiButton.Invoke(invoker);
+                } else {
+                    enableSeFiButton();
+                }
+                void enableSeFiButton() {
+                    SeFiButton.Enabled = true;
+                }
+            }
+
+            {
+                Button SettButton = Program.Mframe.settingsButton;
+                if (SettButton.InvokeRequired) {
+                    MethodInvoker invoker = new MethodInvoker(enableSettButton);
+                    SettButton.Invoke(invoker);
+                } else {
+                    enableSettButton();
+                }
+                void enableSettButton() {
+                    SettButton.Enabled = true;
+                }
+            }
+
+            {
+                TextBox FiPaBox = Program.Mframe.filePathTextBox;
+                if (FiPaBox.InvokeRequired) {
+                    MethodInvoker invoker = new MethodInvoker(enableFiPaBox);
+                    FiPaBox.Invoke(invoker);
+                } else {
+                    enableFiPaBox();
+                }
+                void enableFiPaBox() {
+                    FiPaBox.Enabled = true;
+                }
+            }
+        }
+
+        private static void EnableStartStopButton() {
+            Button StStButton = Program.Mframe.startStopButton;
+            if (StStButton.InvokeRequired) {
+                MethodInvoker invoker = new MethodInvoker(enableStStButton);
+                StStButton.Invoke(invoker);
+            } else {
+                enableStStButton();
+            }
+            void enableStStButton() {
+                StStButton.Enabled = true;
+            }
+        }
+
+        private static void ChangeStartStopButtonText(string text) {
             Button StStButton = Program.Mframe.startStopButton;
             if (StStButton.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(changeText);
@@ -247,7 +318,7 @@ namespace PDFSplit {
             }
         }
 
-        private void ChangeBarValue(int value) {
+        private static void ChangeBarValue(int value) {
             ProgressBar Bar = Program.Mframe.progressBar;
             if (Bar.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(changeValue);
@@ -260,7 +331,7 @@ namespace PDFSplit {
             }
         }
 
-        private void ChangeBarStep(int step) {
+        private static void ChangeBarStep(int step) {
             ProgressBar Bar = Program.Mframe.progressBar;
             if (Bar.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(changeStep);
@@ -273,7 +344,7 @@ namespace PDFSplit {
             }
         }
 
-        private void PerformBarStep() {
+        private static void PerformBarStep() {
             ProgressBar Bar = Program.Mframe.progressBar;
             if (Bar.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(performStep);

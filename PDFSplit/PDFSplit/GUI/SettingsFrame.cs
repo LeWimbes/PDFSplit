@@ -42,7 +42,7 @@ namespace PDFSplit.GUI {
 
             Program.Sett.SafeToFile();
 
-            this.Close();
+            Close();
         }
     }
 }

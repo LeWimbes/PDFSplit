@@ -122,8 +122,7 @@ namespace PDFSplit {
 
                 int j = 0;
                 PdfDocument nPdf = new PdfDocument();
-                PdfDocument n1Pdf = new PdfDocument();
-                n1Pdf.AddPage(Pdf.Pages[0]);
+
                 for (int i = 0; i < Pdf.PageCount; i++) {
                     if (Stop) {
                         if (nPdf.PageCount != 0) {
@@ -133,20 +132,22 @@ namespace PDFSplit {
                         Aborted(output);
                         return;
                     }
+
                     nPdf.AddPage(Pdf.Pages[i]);
-                    if (i + 1 != Pdf.PageCount) {
-                        n1Pdf.AddPage(Pdf.Pages[i + 1]);
-                    }
 
                     if (nPdf.PageCount != 0) {
-                        if (Size(n1Pdf) > maxBytes) {
-                            nPdf.Save(CalculateFileName(output, name, j));
-                            nPdf.Close();
+                        MemoryStream ms = ToMemoryStream(nPdf);
+                        if (ms.Length > maxBytes) {
+                            PdfDocument tempRead = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
+                            PdfDocument temp = new PdfDocument(CalculateFileName(output, name, j));
+                            for (int k = 0; k < nPdf.PageCount - 1; k++) {
+                                temp.AddPage(tempRead.Pages[k]);
+                            }
+                            temp.Close();
                             PerformBarStep();
                             j++;
                             nPdf = new PdfDocument();
-                            n1Pdf = new PdfDocument();
-                            n1Pdf.AddPage(Pdf.Pages[i]);
+                            nPdf.AddPage(Pdf.Pages[i]);
                         }
                     }
                 }
@@ -175,6 +176,13 @@ namespace PDFSplit {
             ms.Seek(0, SeekOrigin.Begin);
             pdf.Save(ms);
             return ms.Length;
+        }
+
+        private MemoryStream ToMemoryStream(PdfDocument pdf) {
+            MemoryStream ms = new MemoryStream();
+            ms.Seek(0, SeekOrigin.Begin);
+            pdf.Save(ms);
+            return ms;
         }
 
         private static void FileSmallEnough() {

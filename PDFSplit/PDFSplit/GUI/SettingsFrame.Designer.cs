@@ -128,6 +128,7 @@
             this.Name = "SettingsFrame";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Einstellungen";
             this.TopMost = true;
             this.baseTable.ResumeLayout(false);

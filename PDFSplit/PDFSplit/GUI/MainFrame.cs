@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Windows.Forms;
 
 namespace PDFSplit.GUI {
     public partial class MainFrame : Form {
 
-        private SettingsFrame Settf;
         private PdfFile pdf;
 
         public MainFrame() {
@@ -39,10 +37,7 @@ namespace PDFSplit.GUI {
         }
 
         private void SettingsButton_Click(object sender, EventArgs e) {
-            if (Settf == null || Settf.IsDisposed) {
-                Settf = new SettingsFrame();
-                Settf.ShowDialog(this);
-            }
+            new SettingsFrame().ShowDialog(this);
         }
     }
 }

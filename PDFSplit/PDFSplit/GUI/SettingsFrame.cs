@@ -1,7 +1,5 @@
 ﻿using PDFSplit.ProgramSettings;
 using System;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace PDFSplit.GUI {
@@ -26,7 +24,7 @@ namespace PDFSplit.GUI {
                 Program.Sett.QUnit = (QuantityUnit)unitComboBox.SelectedItem;
                 Program.Sett.SafeToFile();
             } else {
-                MessageBox.Show("Die Einheit ist ungültig!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, "Die Einheit ist ungültig!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -36,13 +34,14 @@ namespace PDFSplit.GUI {
                 Program.Sett.Size = size;
                 Program.Sett.SafeToFile();
             } else {
-                MessageBox.Show("Die Ganzzahl muss größer 0 sein!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, "Die Ganzzahl muss größer 0 sein!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             Program.Sett.SafeToFile();
 
             Close();
+            Dispose();
         }
     }
 }

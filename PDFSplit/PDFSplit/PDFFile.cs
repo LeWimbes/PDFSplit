@@ -32,7 +32,7 @@ namespace PDFSplit {
         }
 
         public async void StartSplitting() {
-            if (CheckFile(Path)) {
+            if (IsValidPdf(Path)) {
                 Pdf = PdfReader.Open(Path, PdfDocumentOpenMode.Import);
                 Stop = false;
 
@@ -164,7 +164,7 @@ namespace PDFSplit {
             }
         }
 
-        private static bool CheckFile(string path) {
+        private static bool IsValidPdf(string path) {
             if (!File.Exists(path)) {
                 ShowMessage("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 EnableComponents();
@@ -178,13 +178,6 @@ namespace PDFSplit {
                 return false;
             }
             return true;
-        }
-
-        private long Size(PdfDocument pdf) {
-            MemoryStream ms = new MemoryStream();
-            ms.Seek(0, SeekOrigin.Begin);
-            pdf.Save(ms);
-            return ms.Length;
         }
 
         private MemoryStream ToMemoryStream(PdfDocument pdf) {
@@ -211,7 +204,7 @@ namespace PDFSplit {
         }
 
         private void OpenFolder(string path) {
-            new Task(() -> Process.Start("explorer.exe", path)).Start();
+            new Task(() => Process.Start("explorer.exe", path)).Start();
         }
 
         private string CreateOutputDirectory() {

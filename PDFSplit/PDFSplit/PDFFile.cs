@@ -57,6 +57,8 @@ namespace PDFSplit {
             ChangeStartStopButtonText("Aufteilen starten");
             EnableComponents();
             EnableStartStopButton();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
 
         private void SplitByPages() {
@@ -122,6 +124,8 @@ namespace PDFSplit {
 
                 int j = 0;
                 PdfDocument nPdf = new PdfDocument();
+                PdfDocument tempRead;
+                PdfDocument temp;
 
                 for (int i = 0; i < Pdf.PageCount; i++) {
                     if (Stop) {
@@ -138,8 +142,8 @@ namespace PDFSplit {
                     if (nPdf.PageCount != 0) {
                         MemoryStream ms = ToMemoryStream(nPdf);
                         if (ms.Length > maxBytes) {
-                            PdfDocument tempRead = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
-                            PdfDocument temp = new PdfDocument(CalculateFileName(output, name, j));
+                            tempRead = PdfReader.Open(ms, PdfDocumentOpenMode.Import);
+                            temp = new PdfDocument(CalculateFileName(output, name, j));
                             for (int k = 0; k < nPdf.PageCount - 1; k++) {
                                 temp.AddPage(tempRead.Pages[k]);
                             }

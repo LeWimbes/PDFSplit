@@ -211,7 +211,7 @@ namespace PDFSplit {
         }
 
         private void OpenFolder(string path) {
-            Process.Start("explorer.exe", path);
+            new Task(() -> Process.Start("explorer.exe", path)).Start();
         }
 
         private string CreateOutputDirectory() {

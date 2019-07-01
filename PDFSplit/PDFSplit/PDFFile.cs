@@ -162,10 +162,14 @@ namespace PDFSplit {
         private static bool CheckFile(string path) {
             if (!File.Exists(path)) {
                 ShowMessage("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EnableComponents();
+                EnableStartStopButton();
                 return false;
             }
             if (!path.ToLower().EndsWith(".pdf") || PdfReader.TestPdfFile(path) == 0) {
                 ShowMessage("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                EnableComponents();
+                EnableStartStopButton();
                 return false;
             }
             return true;

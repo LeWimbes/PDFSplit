@@ -53,6 +53,7 @@ namespace PDFSplit {
                 SplitBySize();
             }
 
+            Pdf = null;
             ChangeBarValue(0);
             ChangeStartStopButtonText("Aufteilen starten");
             EnableComponents();

@@ -47,7 +47,7 @@ namespace PDFSplit {
             EnableStartStopButton();
             ChangeBarValue(0);
 
-            if (Program.Sett.QUnit.Equals(QuantityUnit.Seiten)) {
+            if (Settings.GetInstance().QUnit.Equals(QuantityUnit.Seiten)) {
                 SplitByPages();
             } else {
                 SplitBySize();
@@ -63,7 +63,7 @@ namespace PDFSplit {
         }
 
         private void SplitByPages() {
-            if (Pdf.PageCount <= Program.Sett.Size) {
+            if (Pdf.PageCount <= Settings.GetInstance().Size) {
                 FileSmallEnough();
             } else {
                 // create output directory
@@ -75,10 +75,10 @@ namespace PDFSplit {
                 string name = CalculateFileName();
 
                 // calculate step size
-                if (Pdf.PageCount % Program.Sett.Size == 0) {
-                    ChangeBarStep(100 / (Pdf.PageCount / Program.Sett.Size));
+                if (Pdf.PageCount % Settings.GetInstance().Size == 0) {
+                    ChangeBarStep(100 / (Pdf.PageCount / Settings.GetInstance().Size));
                 } else {
-                    ChangeBarStep(100 / (Pdf.PageCount / Program.Sett.Size + 1));
+                    ChangeBarStep(100 / (Pdf.PageCount / Settings.GetInstance().Size + 1));
                 }
 
                 int j = 0;
@@ -89,7 +89,7 @@ namespace PDFSplit {
                         Aborted(output);
                         return;
                     }
-                    if (nPdf.PageCount != 0 && nPdf.PageCount == Program.Sett.Size) {
+                    if (nPdf.PageCount != 0 && nPdf.PageCount == Settings.GetInstance().Size) {
                         nPdf.Close();
                         PerformBarStep();
                         j++;
@@ -103,7 +103,7 @@ namespace PDFSplit {
         }
 
         private void SplitBySize() {
-            long maxBytes = MaxBytes(Program.Sett.Size, Program.Sett.QUnit);
+            long maxBytes = MaxBytes(Settings.GetInstance().Size, Settings.GetInstance().QUnit);
 
             if (Pdf.FileSize <= maxBytes) {
                 FileSmallEnough();
@@ -249,7 +249,7 @@ namespace PDFSplit {
         }
 
         private static void ShowMessage(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon) {
-            MainFrame mf = Program.Mframe;
+            MainFrame mf = MainFrame.GetInstance();
             if (mf.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(show);
                 mf.Invoke(invoker);
@@ -263,7 +263,7 @@ namespace PDFSplit {
 
         private static void EnableComponents() {
             {
-                Button SeFiButton = Program.Mframe.selectFileButton;
+                Button SeFiButton = MainFrame.GetInstance().selectFileButton;
                 if (SeFiButton.InvokeRequired) {
                     MethodInvoker invoker = new MethodInvoker(enableSeFiButton);
                     SeFiButton.Invoke(invoker);
@@ -276,7 +276,7 @@ namespace PDFSplit {
             }
 
             {
-                Button SettButton = Program.Mframe.settingsButton;
+                Button SettButton = MainFrame.GetInstance().settingsButton;
                 if (SettButton.InvokeRequired) {
                     MethodInvoker invoker = new MethodInvoker(enableSettButton);
                     SettButton.Invoke(invoker);
@@ -289,7 +289,7 @@ namespace PDFSplit {
             }
 
             {
-                TextBox FiPaBox = Program.Mframe.filePathTextBox;
+                TextBox FiPaBox = MainFrame.GetInstance().filePathTextBox;
                 if (FiPaBox.InvokeRequired) {
                     MethodInvoker invoker = new MethodInvoker(enableFiPaBox);
                     FiPaBox.Invoke(invoker);
@@ -303,7 +303,7 @@ namespace PDFSplit {
         }
 
         private static void EnableStartStopButton() {
-            Button StStButton = Program.Mframe.startStopButton;
+            Button StStButton = MainFrame.GetInstance().startStopButton;
             if (StStButton.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(enableStStButton);
                 StStButton.Invoke(invoker);
@@ -316,7 +316,7 @@ namespace PDFSplit {
         }
 
         private static void ChangeStartStopButtonText(string text) {
-            Button StStButton = Program.Mframe.startStopButton;
+            Button StStButton = MainFrame.GetInstance().startStopButton;
             if (StStButton.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(changeText);
                 StStButton.Invoke(invoker);
@@ -329,7 +329,7 @@ namespace PDFSplit {
         }
 
         private static void ChangeBarValue(int value) {
-            ProgressBar Bar = Program.Mframe.progressBar;
+            ProgressBar Bar = MainFrame.GetInstance().progressBar;
             if (Bar.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(changeValue);
                 Bar.Invoke(invoker);
@@ -342,7 +342,7 @@ namespace PDFSplit {
         }
 
         private static void ChangeBarStep(int step) {
-            ProgressBar Bar = Program.Mframe.progressBar;
+            ProgressBar Bar = MainFrame.GetInstance().progressBar;
             if (Bar.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(changeStep);
                 Bar.Invoke(invoker);
@@ -355,7 +355,7 @@ namespace PDFSplit {
         }
 
         private static void PerformBarStep() {
-            ProgressBar Bar = Program.Mframe.progressBar;
+            ProgressBar Bar = MainFrame.GetInstance().progressBar;
             if (Bar.InvokeRequired) {
                 MethodInvoker invoker = new MethodInvoker(performStep);
                 Bar.Invoke(invoker);

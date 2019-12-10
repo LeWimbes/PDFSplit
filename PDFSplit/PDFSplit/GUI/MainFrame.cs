@@ -3,10 +3,21 @@ using System.Windows.Forms;
 
 namespace PDFSplit.GUI {
     public partial class MainFrame : Form {
+        private static MainFrame Instance;
+
+        /// <summary>
+        /// Gets or creates the single instance of this class.
+        /// </summary>
+        /// <returns>the instance of this class.</returns>
+        public static MainFrame GetInstance() {
+            if (Instance == null)
+                Instance = new MainFrame();
+            return Instance;
+        }
 
         private PdfFile pdf;
 
-        public MainFrame() {
+        private MainFrame() {
             InitializeComponent();
             selectFileButton.Click += new EventHandler(SelectFileButton_Click);
             startStopButton.Click += new EventHandler(StartStopButton_Click);

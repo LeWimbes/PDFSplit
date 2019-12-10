@@ -1,46 +1,54 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Windows.Forms;
-
-namespace PDFSplit.ProgramSettings {
+﻿namespace PDFSplit.ProgramSettings {
     public class Settings {
-        private static readonly string path = Path.GetDirectoryName(Application.ExecutablePath) + @"\settings.json";
+        private static Settings Instance;
 
+        /// <summary>
+        /// Gets or creates the single instance of this class.
+        /// </summary>
+        /// <returns>the instance of this class.</returns>
+        public static Settings GetInstance() {
+            if (Instance == null)
+                Instance = new Settings(Properties.Settings.Default.QUnit, Properties.Settings.Default.Size);
+            return Instance;
+        }
+
+        /// <summary>
+        /// QUnit holds the <see cref="QuantityUnit"/> specified by the user.
+        /// </summary>
         public QuantityUnit QUnit {
             get; set;
         }
+
+        /// <summary>
+        /// Size holds the amount/size specified by the user.
+        /// </summary>
         public int Size {
             get; set;
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="Settings"/> with the given arguments.
+        /// </summary>
+        /// <param name="qUnit">is the <see cref="QuantityUnit"/> which will be hold by this instance.</param>
+        /// <param name="size">is the amount/size which will be hold by this instance.</param>
         private Settings(QuantityUnit qUnit, int size) {
             QUnit = qUnit;
             Size = size;
         }
+
+        /// <summary>
+        /// Saves the fields of this <see cref="Settings"/> to the default settings file.
+        /// </summary>
+        public void Save() {
+            Properties.Settings.Default.QUnit = QUnit;
+            Properties.Settings.Default.Size = Size;
+            Properties.Settings.Default.Save();
+        }
+        
+        /// <summary>
+        /// Only to avoid calling the default constructor from outside this class.
+        /// </summary>
         private Settings() {
-        }
-
-        public static Settings LoadSettings() {
-            QuantityUnit qUnit = QuantityUnit.MiB;
-            int size = 50;
-            try {
-                if (File.Exists(path)) {
-                    Settings Sett = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(path));
-                    return Sett;
-                } else {
-                    Settings Sett = new Settings(qUnit, size);
-                    Sett.SafeToFile();
-                    return Sett;
-                }
-            } catch (UnauthorizedAccessException) {
-                MessageBox.Show("Die Konfigurationsdatei kann nicht gelesen oder geschrieben werden!\nKontaktieren Sie Ihren Administrator.", "Fehlende Rechte", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return new Settings(qUnit, size);
-            }
-        }
-
-        public void SafeToFile() {
-            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
     }
 }

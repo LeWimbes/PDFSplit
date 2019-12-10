@@ -7,15 +7,15 @@ namespace PDFSplit.GUI {
 
         public SettingsFrame() {
             InitializeComponent();
-
             unitComboBox.Items.Add(QuantityUnit.MB);
             unitComboBox.Items.Add(QuantityUnit.MiB);
-            unitComboBox.Items.Add(QuantityUnit.Seiten);
+            unitComboBox.Items.Add(QuantityUnit.Pages);
             unitComboBox.SelectedItem = Settings.GetInstance().QUnit;
 
             sizeNumericTextBox.Text = Settings.GetInstance().Size.ToString();
 
             safeButton.Click += new EventHandler(SafeButton_Click);
+            cancelButton.Click += new EventHandler(CancelButton_Click);
         }
 
         private void SafeButton_Click(object sender, EventArgs e) {
@@ -25,7 +25,7 @@ namespace PDFSplit.GUI {
                Settings.GetInstance().QUnit = (QuantityUnit)unitComboBox.SelectedItem;
                Settings.GetInstance().Save();
             } else {
-                MessageBox.Show(this, "Die Einheit ist ungültig!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, Properties.strings.InvalidUnit + "!", Properties.strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -35,12 +35,17 @@ namespace PDFSplit.GUI {
                Settings.GetInstance().Size = size;
                Settings.GetInstance().Save();
             } else {
-                MessageBox.Show(this, "Die Ganzzahl muss größer 0 sein!", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(this, Properties.strings.IntegerGreaterZero + "!", Properties.strings.Error, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
            Settings.GetInstance().Save();
 
+            Close();
+            Dispose();
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e) {
             Close();
             Dispose();
         }

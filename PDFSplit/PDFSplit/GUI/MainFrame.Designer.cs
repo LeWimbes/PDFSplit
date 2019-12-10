@@ -80,7 +80,7 @@
             this.selectLabel.Name = "selectLabel";
             this.selectLabel.Size = new System.Drawing.Size(315, 25);
             this.selectLabel.TabIndex = 0;
-            this.selectLabel.Text = "Wählen Sie eine PDF-Datei aus:";
+            this.selectLabel.Text = Properties.strings.ChooseFile + ":";
             // 
             // filePathTextBox
             // 
@@ -107,7 +107,7 @@
             this.startStopButton.Name = "startStopButton";
             this.startStopButton.Size = new System.Drawing.Size(315, 24);
             this.startStopButton.TabIndex = 3;
-            this.startStopButton.Text = "Aufteilen starten";
+            this.startStopButton.Text = Properties.strings.StartSplitting;
             this.startStopButton.UseVisualStyleBackColor = true;
             // 
             // progressBar
@@ -125,7 +125,7 @@
             this.settingsButton.Name = "settingsButton";
             this.settingsButton.Size = new System.Drawing.Size(100, 23);
             this.settingsButton.TabIndex = 1;
-            this.settingsButton.Text = "Einstellungen";
+            this.settingsButton.Text = Properties.strings.Settings;
             this.settingsButton.UseVisualStyleBackColor = true;
             // 
             // MainFrame

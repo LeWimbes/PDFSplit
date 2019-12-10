@@ -26,8 +26,8 @@ namespace PDFSplit.GUI {
 
         private void SelectFileButton_Click(object sender, EventArgs e) {
             OpenFileDialog ofd = new OpenFileDialog {
-                Title = "Wählen Sie eine PDF-Datei aus",
-                Filter = "PDF-Dateien (*.pdf)|*.pdf"
+                Title = Properties.strings.ChooseFile,
+                Filter = Properties.strings.PdfFiles + " (*.pdf)|*.pdf"
             };
             if (ofd.ShowDialog() == DialogResult.OK) {
                 filePathTextBox.Text = ofd.FileName;
@@ -36,7 +36,7 @@ namespace PDFSplit.GUI {
 
         private void StartStopButton_Click(object sender, EventArgs e) {
             startStopButton.Enabled = false;
-            if (startStopButton.Text.Equals("Aufteilen starten")) {
+            if (startStopButton.Text.Equals(Properties.strings.StartSplitting)) {
                 selectFileButton.Enabled = false;
                 settingsButton.Enabled = false;
                 filePathTextBox.Enabled = false;

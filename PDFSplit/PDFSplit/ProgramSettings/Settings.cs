@@ -1,4 +1,7 @@
-﻿namespace PDFSplit.ProgramSettings {
+﻿using System.Collections.Specialized;
+using System.Globalization;
+
+namespace PDFSplit.ProgramSettings {
     public class Settings {
         private static Settings Instance;
 
@@ -8,7 +11,11 @@
         /// <returns>the instance of this class.</returns>
         public static Settings GetInstance() {
             if (Instance == null)
-                Instance = new Settings(Properties.Settings.Default.QUnit, Properties.Settings.Default.Size);
+                Instance = new Settings(
+                    Properties.Settings.Default.QUnit,
+                    Properties.Settings.Default.Size,
+                    Properties.Settings.Default.Language,
+                    Properties.Settings.Default.AvailableLanguages);
             return Instance;
         }
 
@@ -26,14 +33,40 @@
             get; set;
         }
 
+        private string _Language;
+        /// <summary>
+        /// Language holds application language specified by the user.
+        /// </summary>
+        public string Language {
+            get {
+                if (_Language.Equals("auto"))
+                    return CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
+                return _Language;
+            }
+            set {
+                _Language = value;
+            }
+        }
+
+        /// <summary>
+        /// AvailableLanguages holds which language files are available.
+        /// </summary>
+        public StringCollection AvailableLanguages {
+            get; private set;
+        }
+
         /// <summary>
         /// Creates an instance of <see cref="Settings"/> with the given arguments.
         /// </summary>
         /// <param name="qUnit">is the <see cref="QuantityUnit"/> which will be hold by this instance.</param>
         /// <param name="size">is the amount/size which will be hold by this instance.</param>
-        private Settings(QuantityUnit qUnit, int size) {
+        /// <param name="language">is the language which will be used for strings.</param>
+        /// <param name="availableLanguages">is a list of all available languages.</param>
+        private Settings(QuantityUnit qUnit, int size, string language, StringCollection availableLanguages) {
             QUnit = qUnit;
             Size = size;
+            Language = language;
+            AvailableLanguages = availableLanguages;
         }
 
         /// <summary>
@@ -42,6 +75,7 @@
         public void Save() {
             Properties.Settings.Default.QUnit = QUnit;
             Properties.Settings.Default.Size = Size;
+            Properties.Settings.Default.Language = Language;
             Properties.Settings.Default.Save();
         }
         

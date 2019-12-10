@@ -5,6 +5,22 @@
     public enum QuantityUnit {
         MB,
         MiB,
-        Seiten,
+        Pages,
+    }
+
+    public static class QuantityUnitMethods {
+
+
+        public static string ToString(this QuantityUnit qUnit) {
+            switch (qUnit) {
+                case QuantityUnit.MB:
+                    return Properties.strings.MB;
+                case QuantityUnit.MiB:
+                    return Properties.strings.MiB;
+                case QuantityUnit.Pages:
+                    return Properties.strings.Pages;
+            }
+            return "";
+        }
     }
 }

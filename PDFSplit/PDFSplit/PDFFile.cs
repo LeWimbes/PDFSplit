@@ -43,11 +43,11 @@ namespace PDFSplit {
         }
 
         private void Split() {
-            ChangeStartStopButtonText("Vorzeitig beenden");
+            ChangeStartStopButtonText(Properties.strings.EndPrematurely);
             EnableStartStopButton();
             ChangeBarValue(0);
 
-            if (Settings.GetInstance().QUnit.Equals(QuantityUnit.Seiten)) {
+            if (Settings.GetInstance().QUnit.Equals(QuantityUnit.Pages)) {
                 SplitByPages();
             } else {
                 SplitBySize();
@@ -55,7 +55,7 @@ namespace PDFSplit {
 
             Pdf = null;
             ChangeBarValue(0);
-            ChangeStartStopButtonText("Aufteilen starten");
+            ChangeStartStopButtonText(Properties.strings.StartSplitting);
             EnableComponents();
             EnableStartStopButton();
             GC.Collect();
@@ -166,13 +166,13 @@ namespace PDFSplit {
 
         private static bool IsValidPdf(string path) {
             if (!File.Exists(path)) {
-                ShowMessage("Die angegebene Datei konnte nicht gefunden werden!", "Datei nicht vorhanden", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowMessage(Properties.strings.FileNotFoundText + "!", Properties.strings.FileNotFoundCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 EnableComponents();
                 EnableStartStopButton();
                 return false;
             }
             if (!path.ToLower().EndsWith(".pdf") || PdfReader.TestPdfFile(path) == 0) {
-                ShowMessage("Die angegebene Datei ist keine PDF-Datei!", "Keine PDF-Datei", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ShowMessage(Properties.strings.FileNotPdfText + "!", Properties.strings.FileNotPdfCaption, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 EnableComponents();
                 EnableStartStopButton();
                 return false;
@@ -189,17 +189,17 @@ namespace PDFSplit {
 
         private static void FileSmallEnough() {
             ChangeBarValue(100);
-            ShowMessage("Die angegebene Datei ist bereits klein genug!", "Datei klein genug", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowMessage(Properties.strings.FileSmallEnoughText + "!", Properties.strings.FileSmallEnoughCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void Done(string path) {
             ChangeBarValue(100);
-            ShowMessage("Das Aufteilen der Datei ist abgeschlossen!", "Fertig", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            ShowMessage(Properties.strings.DoneText + "!", Properties.strings.DoneCaption, MessageBoxButtons.OK, MessageBoxIcon.Information);
             OpenFolder(path);
         }
 
         private void Aborted(string path) {
-            ShowMessage("Das Aufteilen der Datei wurde abgebrochen!", "Abbruch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            ShowMessage(Properties.strings.AbortText + "!", Properties.strings.AbortCaption, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             OpenFolder(path);
         }
 

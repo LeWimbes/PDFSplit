@@ -30,6 +30,7 @@
             this.unitComboBox = new System.Windows.Forms.ComboBox();
             this.sizeNumericTextBox = new PDFSplit.GUI.NumericTextBox();
             this.safeButton = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.baseTable.SuspendLayout();
             this.sizeTable.SuspendLayout();
             this.SuspendLayout();
@@ -76,7 +77,7 @@
             this.sizeLabel.Name = "sizeLabel";
             this.sizeLabel.Size = new System.Drawing.Size(183, 15);
             this.sizeLabel.TabIndex = 0;
-            this.sizeLabel.Text = "Geben Sie eine Ganzzahl ein";
+            this.sizeLabel.Text = Properties.strings.EnterInteger;
             // 
             // unitLabel
             // 
@@ -86,7 +87,7 @@
             this.unitLabel.Name = "unitLabel";
             this.unitLabel.Size = new System.Drawing.Size(183, 15);
             this.unitLabel.TabIndex = 1;
-            this.unitLabel.Text = "Wählen Sie die Einheit";
+            this.unitLabel.Text = Properties.strings.ChooseUnit;
             // 
             // unitComboBox
             // 
@@ -113,8 +114,17 @@
             this.safeButton.Name = "safeButton";
             this.safeButton.Size = new System.Drawing.Size(75, 23);
             this.safeButton.TabIndex = 2;
-            this.safeButton.Text = "Speichern";
+            this.safeButton.Text = Properties.strings.Save;
             this.safeButton.UseVisualStyleBackColor = true;
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(200, 77);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 2;
+            this.cancelButton.Text = Properties.strings.Cancel;
+            this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // SettingsFrame
             // 
@@ -129,7 +139,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Einstellungen";
+            this.Text = Properties.strings.Settings;
             this.TopMost = true;
             this.baseTable.ResumeLayout(false);
             this.sizeTable.ResumeLayout(false);
@@ -147,5 +157,6 @@
         protected System.Windows.Forms.ComboBox unitComboBox;
         protected NumericTextBox sizeNumericTextBox;
         private System.Windows.Forms.Button safeButton;
+        private System.Windows.Forms.Button cancelButton;
     }
 }
